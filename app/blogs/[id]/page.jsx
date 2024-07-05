@@ -3,8 +3,9 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 
-function page({ params }) {
-  const [blog, setBlog] = useState([]);
+function Page({ params }) {
+  const [blog, setBlog] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchArticle = async () => {
@@ -16,18 +17,28 @@ function page({ params }) {
         console.log(response.data.data);
       } catch (error) {
         console.error("Error fetching articles:", error);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchArticle();
-  }, []);
+  }, [params.id]);
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="loader"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="mx-14 sm:mx-[50px] md:mx-[150px] lg:mx-[250px] ">
       <h2 className="mt-7 mb-6 text-xl font-semibold">{blog?.title}</h2>
       <img
         src={blog?.banner_image?.file_path}
-        alt="banner"
+        alt=""
         className="rounded h-[400px] w-[100%]"
       />
       <h4 className="font-semibold mt-7">Introduction</h4>
@@ -37,4 +48,4 @@ function page({ params }) {
   );
 }
 
-export default page;
+export default Page;
