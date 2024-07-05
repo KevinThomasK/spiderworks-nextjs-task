@@ -2,6 +2,7 @@
 
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import LoadingContainer from "../../../components/LoadingContainer";
 
 function Page({ params }) {
   const [blog, setBlog] = useState({});
@@ -26,11 +27,7 @@ function Page({ params }) {
   }, [params.id]);
 
   if (loading) {
-    return (
-      <div className="flex justify-center items-center h-screen">
-        <div className="loader"></div>
-      </div>
-    );
+    return <LoadingContainer />;
   }
 
   return (
